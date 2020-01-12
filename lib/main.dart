@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_gear_mobile/ui/views/gear_view.dart';
+import 'package:travel_gear_mobile/ui/views/user_profile.dart';
 import 'package:travel_gear_mobile/ui/views/splash_view.dart';
 
 void main() {

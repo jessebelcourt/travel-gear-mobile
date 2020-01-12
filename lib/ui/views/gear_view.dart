@@ -8,18 +8,53 @@ class GearView extends StatefulWidget {
 }
 
 class _GearViewState extends State<GearView> {
+  bool _showAddGearButton = true;
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.greenAccent,
-          child: Icon(
-            Icons.add,
-            color: Colors.white,
+        drawer: Drawer(
+          child: ListView(
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.symmetric(
+                  vertical: 30,
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Travel Gear',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 26,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                  left: 15,
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.account_circle),
+                    Text('View Profile'),
+                  ],
+                ),
+              ),
+            ],
           ),
-          onPressed: this._addGear,
+        ),
+        floatingActionButton: Visibility(
+          visible: this._showAddGearButton,
+          child: FloatingActionButton(
+            backgroundColor: Colors.greenAccent,
+            child: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+            onPressed: this._addGear,
+          ),
         ),
         bottomNavigationBar: Container(
           color: Colors.black,
@@ -46,6 +81,9 @@ class _GearViewState extends State<GearView> {
       child: ListView(
         children: <Widget>[
           Container(
+            padding: EdgeInsets.only(
+              top: 10,
+            ),
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
