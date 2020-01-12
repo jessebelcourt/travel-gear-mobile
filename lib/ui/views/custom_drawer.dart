@@ -11,6 +11,19 @@ class CustomAppDrawer extends StatefulWidget {
 }
 
 class _CustomAppDrawerState extends State<CustomAppDrawer> {
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, dynamic>(
+      converter: (store) => DrawerViewUIModel.fromStore(store),
+      builder: (_, store) {
+        return Drawer(
+          child: _buildDrawerContent(store),
+        );
+      },
+    );
+  }
+  
   ListView _buildDrawerContent(DrawerViewUIModel viewModel) {
     return ListView(
       children: <Widget>[
@@ -27,49 +40,53 @@ class _CustomAppDrawerState extends State<CustomAppDrawer> {
             ),
           ),
         ),
-        Container(
-          padding: EdgeInsets.only(
-            left: 15,
-          ),
-          child: ListTile(
-            onTap: () => viewModel.navigateToUserProfile(),
-            title: Row(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(
-                    right: 5,
-                  ),
-                  child: Icon(Icons.account_circle),
-                ),
-                Text('View Profile'),
-              ],
-            ),
-          ),
-          //   child: Row(
-          //     children: <Widget>[
-          //       Container(
-          //         padding: EdgeInsets.only(
-          //           right: 5,
-          //         ),
-          //         child: Icon(Icons.account_circle),
-          //       ),
-          //       Text('View Profile'),
-          //     ],
-          //   ),
-        ),
+        _buildGearNavigationButton(viewModel),
+        _buildProfileNavigationButton(viewModel),
       ],
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, dynamic>(
-      converter: (store) => DrawerViewUIModel.fromStore(store),
-      builder: (_, store) {
-        return Drawer(
-          child: _buildDrawerContent(store),
-        );
-      },
+  Container _buildProfileNavigationButton(DrawerViewUIModel viewModel) {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 15,
+      ),
+      child: ListTile(
+        onTap: () => viewModel.navigateToUserProfile(),
+        title: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(
+                right: 5,
+              ),
+              child: Icon(Icons.account_circle),
+            ),
+            Text('View Profile'),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Container _buildGearNavigationButton(DrawerViewUIModel viewModel) {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 15,
+      ),
+      child: ListTile(
+        onTap: () => viewModel.navigateToGearView(),
+        title: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(
+                right: 5,
+              ),
+              child: Icon(Icons.store),
+            ),
+            Text('Gear'),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -5,16 +5,19 @@ import 'package:travel_gear_mobile/redux/app_state.dart';
 
 class DrawerViewUIModel {
   final Function navigateToUserProfile;
+  final Function navigateToGearView;
   final UserModel user;
 
   DrawerViewUIModel({
     this.navigateToUserProfile,
+    this.navigateToGearView,
     this.user,
   });
 
   static DrawerViewUIModel fromStore(Store<AppState> store) {
     return DrawerViewUIModel(
       navigateToUserProfile: () => store.dispatch(NavigateToUserProfileViewFromDrawer()),
+      navigateToGearView: () => store.dispatch(NavigateToGearView()),
       user: store.state.userState.user,
     );
   }

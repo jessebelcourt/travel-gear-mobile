@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
 import 'package:travel_gear_mobile/ui/views/custom_drawer.dart';
 
 class GearView extends StatefulWidget {
@@ -9,13 +10,14 @@ class GearView extends StatefulWidget {
 }
 
 class _GearViewState extends State<GearView> {
-  bool _showAddGearButton = true;
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        key: _scaffoldKey,
         drawer: CustomAppDrawer(),
         bottomNavigationBar: Container(
           color: Colors.black,
@@ -24,7 +26,7 @@ class _GearViewState extends State<GearView> {
           ),
           child: _buildBottomTabBar(),
         ),
-        appBar: _buildAppBar(),
+        appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
         body: Container(
           child: TabBarView(
             children: <Widget>[
@@ -103,19 +105,6 @@ class _GearViewState extends State<GearView> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  AppBar _buildAppBar() {
-    return AppBar(
-      title: Container(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text('Gear'),
-          ],
-        ),
       ),
     );
   }

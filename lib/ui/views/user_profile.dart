@@ -18,8 +18,8 @@ class _UserProfileViewState extends State<UserProfileView> {
       key: _scaffoldKey,
       appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
       drawer: CustomAppDrawer(),
-      body: Center(
-        child: Text('user profile'),
+      body: Container(
+        child: Card(),
       ),
     );
   }
