@@ -1,7 +1,6 @@
-class NavigateToLoginAction {
-  String option;
-  NavigateToLoginAction({this.option});
-}
+class NavigateToLoginAction {}
+
+class NavigateToRegisterView {}
 
 class NavigateToGearView {}
 

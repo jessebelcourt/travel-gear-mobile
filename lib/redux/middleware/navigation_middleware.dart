@@ -22,22 +22,22 @@ class NavigationMiddleware extends MiddlewareClass<AppState> {
             '/userprofile', ModalRoute.withName('/gear'));
       }
     }
-
-    if (action is NavigateToGearView) {
-      Keys.navKey.currentState
-          .pushNamedAndRemoveUntil('/gear', ModalRoute.withName('/gear'));
+    
+    if (action is NavigateToRegisterView) {
+      // User must be logged in to view profile
+        Keys.navKey.currentState
+            .pushNamedAndRemoveUntil('/register', ModalRoute.withName('/gear'));
+      
+    }
+    
+    if (action is NavigateToLoginAction) {
+      // User must be logged in to view profile
+        Keys.navKey.currentState
+            .pushNamedAndRemoveUntil('/register', ModalRoute.withName('/gear'));
+      
     }
 
-    // if (action is NavigateToAboutView) {
-    //   switch (action.option) {
-    //     case 'removeUntil':
-    //       Keys.navKey.currentState
-    //           .pushNamedAndRemoveUntil('/about', ModalRoute.withName('/about'));
-    //       break;
-    //     default:
-    //       Keys.navKey.currentState.pushNamed("/about");
-    //   }
-    // }
+
 
     next(action);
   }

@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
 import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
 
-class LoginView extends StatefulWidget {
-  LoginView({Key key}) : super(key: key);
+class RegisterView extends StatefulWidget {
+  RegisterView({Key key}) : super(key: key);
 
   @override
-  _LoginViewState createState() => _LoginViewState();
+  _RegisterViewState createState() => _RegisterViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _RegisterViewState extends State<RegisterView> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -31,6 +31,7 @@ class _LoginViewState extends State<LoginView> {
                 _buildViewLabel(),
                 _buildEmailField(),
                 _buildPasswordField(),
+                _buildRePasswordField(),
                 _buildSubmitButton(),
                 FlatButton(
                   child: Text(
@@ -100,6 +101,21 @@ class _LoginViewState extends State<LoginView> {
         obscureText: true,
         decoration: InputDecoration(
           hintText: "Password",
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+        ),
+      ),
+    );
+  }
+  
+  Container _buildRePasswordField() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 28),
+      child: TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          hintText: "Password again",
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),
           ),

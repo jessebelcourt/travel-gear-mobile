@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
-import 'package:travel_gear_mobile/ui/views/custom_drawer.dart';
+import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
 
 class UserProfileView extends StatefulWidget {
   UserProfileView({Key key}) : super(key: key);
