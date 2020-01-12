@@ -8,11 +8,27 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
+
+  @override
+  void initState() { 
+    super.initState();
+    
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Travel Gear'),
+      body: Container(
+        color: Theme.of(context).primaryColor,
+        child: Center(
+          child: Text(
+            'Travel Gear',
+            style: TextStyle(
+              color: Colors.blueGrey,
+              fontSize: 28,
+            ),
+          ),
+        ),
       ),
     );
   }
