@@ -31,7 +31,15 @@ class _LoginViewState extends State<LoginView> {
                 _buildViewLabel(),
                 _buildEmailField(),
                 _buildPasswordField(),
-                _submitButton(context),
+                _buildSubmitButton(),
+                FlatButton(
+                  child: Text(
+                    'Sign up',
+                  ),
+                  onPressed: () {
+                    print('go to register view');
+                  },
+                ),
               ],
             ),
           ],
@@ -40,31 +48,34 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 
-  Row _submitButton(BuildContext context) {
+  Row _buildSubmitButton() {
     return Row(
-                children: <Widget>[
-                  FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    color: Theme.of(context).primaryColor,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                        vertical: 5,
-                      ),
-                      child: Text(
-                        'Submit',
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                    onPressed: () {
-                      print('login');
-                    },
-                  ),
-                ],
-              );
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        FlatButton(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30),
+          ),
+          color: Theme.of(context).primaryColor,
+          child: Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 10,
+              horizontal: 5,
+            ),
+            child: Text(
+              'Submit',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 22,
+              ),
+            ),
+          ),
+          onPressed: () {
+            print('login');
+          },
+        ),
+      ],
+    );
   }
 
   Container _buildViewLabel() {
@@ -84,6 +95,7 @@ class _LoginViewState extends State<LoginView> {
 
   Container _buildPasswordField() {
     return Container(
+      margin: EdgeInsets.only(bottom: 28),
       child: TextField(
         obscureText: true,
         decoration: InputDecoration(
