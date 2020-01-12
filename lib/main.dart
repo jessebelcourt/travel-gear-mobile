@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
+import 'package:travel_gear_mobile/redux/navigation_key.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:travel_gear_mobile/redux/app_state.dart';
 import 'package:travel_gear_mobile/redux/app_store.dart';
@@ -28,13 +29,15 @@ class _TravelGearAppState extends State<TravelGearApp> {
     return new StoreProvider<AppState>(
       store: this.widget.store,
       child: MaterialApp(
-          theme: ThemeData(primaryColor: Colors.greenAccent),
-          routes: <String, WidgetBuilder>{
-            '/': (BuildContext context) => SplashView(),
-            '/gear': (BuildContext context) => GearView(),
-            '/login': (BuildContext context) => LoginView(),
-            // '/register': (BuildContext context) => 
-          }),
+        navigatorKey: Keys.navKey,
+        theme: ThemeData(primaryColor: Colors.greenAccent),
+        routes: <String, WidgetBuilder>{
+          '/': (BuildContext context) => SplashView(),
+          '/gear': (BuildContext context) => GearView(),
+          '/login': (BuildContext context) => LoginView(),
+          // '/register': (BuildContext context) =>
+        },
+      ),
     );
   }
 }

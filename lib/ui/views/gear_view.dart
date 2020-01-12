@@ -45,17 +45,6 @@ class _GearViewState extends State<GearView> {
             ],
           ),
         ),
-        floatingActionButton: Visibility(
-          visible: this._showAddGearButton,
-          child: FloatingActionButton(
-            backgroundColor: Colors.greenAccent,
-            child: Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-            onPressed: this._addGear,
-          ),
-        ),
         bottomNavigationBar: Container(
           color: Colors.black,
           padding: EdgeInsets.symmetric(
@@ -136,8 +125,9 @@ class _GearViewState extends State<GearView> {
           TextField(
             decoration: InputDecoration(
               prefixIcon: Icon(Icons.search),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
             ),
           ),
         ],

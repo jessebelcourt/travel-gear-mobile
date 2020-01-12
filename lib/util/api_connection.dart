@@ -124,10 +124,7 @@ class ApiConnection {
       data['valid'] = (response.data['valid'] == true);
       data['user'] =
           data['valid'] ? UserModel.fromJson(response.data['user']) : null;
-      // data['user'] = response.data['user'] != null
-      //     ? UserModel.fromJson(data['user'])
 
-      //     : null;
     } catch (e) {
       print('there was an issue validating the token: $e');
     }
