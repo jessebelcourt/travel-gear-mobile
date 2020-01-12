@@ -29,8 +29,8 @@ class _TravelGearAppState extends State<TravelGearApp> {
       child: MaterialApp(
           theme: ThemeData(primaryColor: Colors.greenAccent),
           routes: <String, WidgetBuilder>{
-            // '/': (BuildContext context) => SplashView(),
-            '/': (BuildContext context) => GearView(),
+            '/': (BuildContext context) => SplashView(),
+            // '/': (BuildContext context) => GearView(),
           }),
     );
   }

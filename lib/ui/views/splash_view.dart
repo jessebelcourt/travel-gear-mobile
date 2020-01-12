@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:travel_gear_mobile/models/view_models.dart/splash_view_model.dart';
+import 'package:travel_gear_mobile/redux/app_state.dart';
 
 class SplashView extends StatefulWidget {
   SplashView({Key key}) : super(key: key);
@@ -17,12 +18,11 @@ class _SplashViewState extends State<SplashView> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector(
+    return StoreConnector<AppState, dynamic>(
       converter: (store) => SplashViewUIModel.fromStore(store),
       builder: (_, viewModel) => _buildContent(viewModel),
       onInitialBuild: (viewModel) => viewModel.bootstrapApplication(),
     );
-    // return _buildAppContent(context);
   }
 
   Scaffold _buildContent(SplashViewUIModel viewModel) {
