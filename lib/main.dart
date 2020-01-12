@@ -20,10 +20,9 @@ class _TravelGearAppState extends State<TravelGearApp> {
       theme: ThemeData(
         primaryColor: Colors.greenAccent
       ),
-      initialRoute: '/gear',
       routes: <String, WidgetBuilder>{
-        '/': (BuildContext context) => SplashView(),
-        '/gear': (BuildContext context) => GearView(),
+        // '/': (BuildContext context) => SplashView(),
+        '/': (BuildContext context) => GearView(),
       }
     );
   }
