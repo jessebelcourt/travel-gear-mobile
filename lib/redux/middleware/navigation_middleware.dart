@@ -13,11 +13,19 @@ class NavigationMiddleware extends MiddlewareClass<AppState> {
     }
 
     if (action is NavigateToUserProfileViewFromDrawer) {
-      Keys.navKey.currentState.pushNamedAndRemoveUntil('/userprofile', ModalRoute.withName('/gear'));
+      // User must be logged in to view profile
+      if (store.state.userState.user == null) {
+        Keys.navKey.currentState
+            .pushNamedAndRemoveUntil('/login', ModalRoute.withName('/gear'));
+      } else {
+        Keys.navKey.currentState.pushNamedAndRemoveUntil(
+            '/userprofile', ModalRoute.withName('/gear'));
+      }
     }
-    
+
     if (action is NavigateToGearView) {
-      Keys.navKey.currentState.pushNamedAndRemoveUntil('/gear', ModalRoute.withName('/gear'));
+      Keys.navKey.currentState
+          .pushNamedAndRemoveUntil('/gear', ModalRoute.withName('/gear'));
     }
 
     // if (action is NavigateToAboutView) {

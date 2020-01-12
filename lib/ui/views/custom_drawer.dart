@@ -1,5 +1,6 @@
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_gear_mobile/models/data_models/user_model.dart';
 import 'package:travel_gear_mobile/models/view_models.dart/drawer_view_model.dart';
 import 'package:travel_gear_mobile/redux/app_state.dart';
 
@@ -13,6 +14,11 @@ class CustomAppDrawer extends StatefulWidget {
 class _CustomAppDrawerState extends State<CustomAppDrawer> {
 
   @override
+  void initState() { 
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, dynamic>(
       converter: (store) => DrawerViewUIModel.fromStore(store),
@@ -21,9 +27,12 @@ class _CustomAppDrawerState extends State<CustomAppDrawer> {
           child: _buildDrawerContent(store),
         );
       },
+      onInit: (store) {
+        UserModel user = DrawerViewUIModel.fromStore(store).user;
+      },
     );
   }
-  
+
   ListView _buildDrawerContent(DrawerViewUIModel viewModel) {
     return ListView(
       children: <Widget>[
