@@ -4,3 +4,7 @@ class NavigateToLoginAction {
 }
 
 class NavigateToGearView {}
+
+class NavigateToUserProfileView {}
+
+class NavigateToUserProfileViewFromDrawer {}

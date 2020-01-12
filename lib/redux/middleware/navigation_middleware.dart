@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:travel_gear_mobile/redux/actions/navigation_actions.dart';
 import 'package:travel_gear_mobile/redux/app_state.dart';
@@ -9,6 +10,10 @@ class NavigationMiddleware extends MiddlewareClass<AppState> {
     // Login
     if (action is NavigateToGearView) {
       Keys.navKey.currentState.pushReplacementNamed("/gear");
+    }
+
+    if (action is NavigateToUserProfileViewFromDrawer) {
+      Keys.navKey.currentState.pushNamedAndRemoveUntil('/userprofile', ModalRoute.withName('/gear'));
     }
 
     // if (action is NavigateToAboutView) {

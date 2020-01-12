@@ -36,6 +36,7 @@ class _TravelGearAppState extends State<TravelGearApp> {
           '/gear': (BuildContext context) => GearView(),
           '/login': (BuildContext context) => LoginView(),
           // '/register': (BuildContext context) =>
+          '/userprofile': (BuildContext context) => UserProfileView(),
         },
       ),
     );
