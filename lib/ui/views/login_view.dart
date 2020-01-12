@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:travel_gear_mobile/models/view_models.dart/auth_view_model.dart';
+import 'package:travel_gear_mobile/redux/app_state.dart';
 import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
 import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
 
@@ -14,6 +17,13 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, dynamic>(
+      converter: (store) => AuthViewUIModel.fromStore(store),
+      builder: (_, viewModel) => _buildContent(viewModel),
+    );
+  }
+
+  Scaffold _buildContent(AuthViewUIModel viewModel) {
     return Scaffold(
       key: _scaffoldKey,
       drawer: CustomAppDrawer(),
@@ -32,19 +42,21 @@ class _LoginViewState extends State<LoginView> {
                 _buildEmailField(),
                 _buildPasswordField(),
                 _buildSubmitButton(),
-                FlatButton(
-                  child: Text(
-                    'Sign up',
-                  ),
-                  onPressed: () {
-                    print('go to register view');
-                  },
-                ),
+                _buildNavigateToRegisterViewButton(viewModel),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  FlatButton _buildNavigateToRegisterViewButton(AuthViewUIModel viewModel) {
+    return FlatButton(
+      child: Text(
+        'Sign up',
+      ),
+      onPressed: viewModel.navigateToRegisterView,
     );
   }
 

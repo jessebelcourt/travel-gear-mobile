@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:travel_gear_mobile/models/view_models.dart/auth_view_model.dart';
+import 'package:travel_gear_mobile/redux/app_state.dart';
 import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
 import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
 
@@ -14,6 +17,13 @@ class _RegisterViewState extends State<RegisterView> {
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, dynamic>(
+      converter: (store) => AuthViewUIModel.fromStore(store),
+      builder: (_, viewModel) => _buildContent(viewModel),
+    );
+  }
+
+  Scaffold _buildContent(AuthViewUIModel viewModel) {
     return Scaffold(
       key: _scaffoldKey,
       drawer: CustomAppDrawer(),
@@ -33,19 +43,21 @@ class _RegisterViewState extends State<RegisterView> {
                 _buildPasswordField(),
                 _buildRePasswordField(),
                 _buildSubmitButton(),
-                FlatButton(
-                  child: Text(
-                    'Sign up',
-                  ),
-                  onPressed: () {
-                    print('go to register view');
-                  },
-                ),
+                _navigateToRegisterViewButton(viewModel),
               ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  FlatButton _navigateToRegisterViewButton(AuthViewUIModel viewModel) {
+    return FlatButton(
+      child: Text(
+        'Login',
+      ),
+      onPressed: viewModel.navigateToLoginView,
     );
   }
 
@@ -86,7 +98,7 @@ class _RegisterViewState extends State<RegisterView> {
       ),
       alignment: Alignment.center,
       child: Text(
-        'Login',
+        'Sign Up',
         style: TextStyle(
           fontSize: 24,
         ),
@@ -96,7 +108,9 @@ class _RegisterViewState extends State<RegisterView> {
 
   Container _buildPasswordField() {
     return Container(
-      margin: EdgeInsets.only(bottom: 28),
+      margin: EdgeInsets.only(
+        bottom: 10,
+      ),
       child: TextField(
         obscureText: true,
         decoration: InputDecoration(
@@ -108,7 +122,7 @@ class _RegisterViewState extends State<RegisterView> {
       ),
     );
   }
-  
+
   Container _buildRePasswordField() {
     return Container(
       margin: EdgeInsets.only(bottom: 28),
