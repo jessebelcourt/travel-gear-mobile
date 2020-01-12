@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:travel_gear_mobile/redux/app_state.dart';
 import 'package:travel_gear_mobile/redux/app_store.dart';
 import 'package:travel_gear_mobile/ui/views/gear_view.dart';
+import 'package:travel_gear_mobile/ui/views/login_view.dart';
 import 'package:travel_gear_mobile/ui/views/user_profile.dart';
 import 'package:travel_gear_mobile/ui/views/splash_view.dart';
 
@@ -30,7 +31,9 @@ class _TravelGearAppState extends State<TravelGearApp> {
           theme: ThemeData(primaryColor: Colors.greenAccent),
           routes: <String, WidgetBuilder>{
             '/': (BuildContext context) => SplashView(),
-            // '/': (BuildContext context) => GearView(),
+            '/gear': (BuildContext context) => GearView(),
+            '/login': (BuildContext context) => LoginView(),
+            // '/register': (BuildContext context) => 
           }),
     );
   }

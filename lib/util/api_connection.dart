@@ -118,7 +118,9 @@ class ApiConnection {
     Map<String, dynamic> data = {'valid': false};
 
     try {
-      Response response = await this.dio.get('appuser/authenticated');
+      Response response = await this.dio.get('authenticated');
+
+      print('isTokenValid: $response');
       data['valid'] = (response.data['valid'] == true);
       data['user'] =
           data['valid'] ? UserModel.fromJson(response.data['user']) : null;
