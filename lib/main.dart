@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:travel_gear_mobile/redux/app_state.dart';
+import 'package:travel_gear_mobile/redux/app_store.dart';
 import 'package:travel_gear_mobile/ui/views/gear_view.dart';
 import 'package:travel_gear_mobile/ui/views/user_profile.dart';
 import 'package:travel_gear_mobile/ui/views/splash_view.dart';
 
-void main() {
-  runApp(TravelGearApp());
+void main() async {
+  var store = await createStore();
+  runApp(TravelGearApp(store: store));
 }
 
 class TravelGearApp extends StatefulWidget {
-  TravelGearApp({Key key}) : super(key: key);
+  final Store<AppState> store;
+
+  TravelGearApp({Key key, this.store}) : super(key: key);
 
   @override
   _TravelGearAppState createState() => _TravelGearAppState();
@@ -20,15 +25,13 @@ class _TravelGearAppState extends State<TravelGearApp> {
   @override
   Widget build(BuildContext context) {
     return new StoreProvider<AppState>(
-          child: MaterialApp(
-        theme: ThemeData(
-          primaryColor: Colors.greenAccent
-        ),
-        routes: <String, WidgetBuilder>{
-          // '/': (BuildContext context) => SplashView(),
-          '/': (BuildContext context) => GearView(),
-        }
-      ),
+      store: this.widget.store,
+      child: MaterialApp(
+          theme: ThemeData(primaryColor: Colors.greenAccent),
+          routes: <String, WidgetBuilder>{
+            // '/': (BuildContext context) => SplashView(),
+            '/': (BuildContext context) => GearView(),
+          }),
     );
   }
 }

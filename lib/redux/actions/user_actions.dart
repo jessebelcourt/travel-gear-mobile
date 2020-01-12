@@ -4,3 +4,5 @@ class UpdateUserInfo {
   UserModel user;
   UpdateUserInfo(this.user);
 }
+
+class BootstrapApplication {}
