@@ -37,8 +37,6 @@ class NavigationMiddleware extends MiddlewareClass<AppState> {
       
     }
 
-
-
     next(action);
   }
 }
