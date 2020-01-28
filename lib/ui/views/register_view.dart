@@ -116,9 +116,7 @@ class _RegisterViewState extends State<RegisterView> {
               ),
             ),
           ),
-          onPressed: () {
-            print('login');
-          },
+          onPressed: this._validateInputs,
         ),
       ],
     );
@@ -184,7 +182,7 @@ class _RegisterViewState extends State<RegisterView> {
       ),
       child: TextField(
         controller: _emailController,
-        onChanged: this._validateEmailBeforeSubmission,
+        onChanged: this._validateEmailSubmission,
         keyboardType: TextInputType.emailAddress,
         decoration: InputDecoration(
           hintText: "Email",
@@ -200,7 +198,8 @@ class _RegisterViewState extends State<RegisterView> {
   void _validatePasswords(String password) {
     if (_passwordConfirmationController.text != _passwordController.text) {
       setState(() {
-        this._passwordError = this._passwordConfirmationError = 'Passwords must match';
+        this._passwordError =
+            this._passwordConfirmationError = 'Passwords must match';
       });
     } else {
       setState(() {
@@ -209,11 +208,53 @@ class _RegisterViewState extends State<RegisterView> {
     }
   }
 
-  void _validateEmailBeforeSubmission(String email) {
+  void _validateEmailSubmission(String email) {
     if (email.isEmpty || email == null || EmailValidator.validate(email)) {
       setState(() => this._emailError = null);
-    } else  {
+    } else {
       setState(() => this._emailError = 'Please enter a valid email');
+    }
+  }
+
+  void _validateInputs() {
+    bool inputValid = true;
+    // Email validation
+    if (EmailValidator.validate(_emailController.text)) {
+      print('email valid: ${_emailController.text}');
+      print('submit email');
+    } else {
+      inputValid = false;
+      setState(() => this._emailError = 'Please enter a valid email');
+    }
+
+    // Password validation
+    if (_passwordController.text.isEmpty) {
+      inputValid = false;
+      setState(() => this._passwordError = 'Password cannot be blank');
+    }
+
+    if (_passwordConfirmationController.text.isEmpty) {
+      inputValid = false;
+      setState(() => this._passwordConfirmationError = 'Confirmation cannot be blank');
+    }
+
+    if (_passwordController.text != _passwordConfirmationController.text) {
+      setState(() {
+        inputValid = false;
+        this._passwordError =
+            this._passwordConfirmationError = 'Passwords must match';
+      });
+    }
+
+    if (_passwordController.text.isNotEmpty &&
+        (_passwordController.text == _passwordConfirmationController.text)) {
+      print('passwords are fine:');
+      print('password: ${_passwordController.text}');
+      print('password confirmation: ${_passwordConfirmationController.text}');
+    }
+
+    if (inputValid) {
+      print('validated!');
     }
   }
 }
