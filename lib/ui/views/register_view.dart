@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:travel_gear_mobile/models/data_models/user_model.dart';
 import 'package:travel_gear_mobile/models/view_models.dart/auth_view_model.dart';
 import 'package:travel_gear_mobile/redux/app_state.dart';
 import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
 import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
+import 'package:travel_gear_mobile/util/api_connection.dart';
 
 class RegisterView extends StatefulWidget {
   RegisterView({Key key}) : super(key: key);
@@ -22,6 +24,7 @@ class _RegisterViewState extends State<RegisterView> {
   String _errorMessage = '';
   String _passwordError;
   String _passwordConfirmationError;
+  List<String> _errorsFromServer = [];
 
   @override
   void initState() {
@@ -61,6 +64,7 @@ class _RegisterViewState extends State<RegisterView> {
                 _buildErrorMessage(),
                 _buildSubmitButton(),
                 _navigateToRegisterViewButton(viewModel),
+                _buildRegistrationErrors(),
               ],
             ),
           ],
@@ -89,6 +93,7 @@ class _RegisterViewState extends State<RegisterView> {
     return FlatButton(
       child: Text(
         'Login',
+        style: TextStyle(decoration: TextDecoration.underline),
       ),
       onPressed: viewModel.navigateToLoginView,
     );
@@ -195,6 +200,22 @@ class _RegisterViewState extends State<RegisterView> {
     );
   }
 
+  Container _buildRegistrationErrors() {
+    List<Widget> errorWidgets = [];
+
+    if (this._errorsFromServer != null && this._errorsFromServer.isNotEmpty) {
+      errorWidgets = this._errorsFromServer.map((error) {
+        return Container(
+          child: Text(error),
+        );
+      }).toList();
+    }
+
+    return Container(
+      child: Column(children: errorWidgets),
+    );
+  }
+
   void _validatePasswords(String password) {
     if (_passwordConfirmationController.text != _passwordController.text) {
       setState(() {
@@ -235,7 +256,8 @@ class _RegisterViewState extends State<RegisterView> {
 
     if (_passwordConfirmationController.text.isEmpty) {
       inputValid = false;
-      setState(() => this._passwordConfirmationError = 'Confirmation cannot be blank');
+      setState(() =>
+          this._passwordConfirmationError = 'Confirmation cannot be blank');
     }
 
     if (_passwordController.text != _passwordConfirmationController.text) {
@@ -254,7 +276,24 @@ class _RegisterViewState extends State<RegisterView> {
     }
 
     if (inputValid) {
-      print('validated!');
+      this._register({
+        'email': _emailController.text,
+        'password': _passwordController.text,
+        'password_confirmation': _passwordConfirmationController.text,
+      });
+    }
+  }
+
+  void _register(Map<String, dynamic> data) async {
+    ApiConnection api = ApiConnection();
+    Map<String, dynamic> response = await api.register(data);
+    print('_register: $response');
+
+    if (response['logged_in'] != null &&
+        !response['logged_in'] &&
+        response['errors'] != null &&
+        response['errors'].isNotEmpty) {
+          setState(() => this._errorsFromServer = response['errors']);
     }
   }
 }

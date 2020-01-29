@@ -172,6 +172,42 @@ class ApiConnection {
 
     return loginResponse;
   }
+  
+  Future<Map<String, dynamic>> register(Map<String, dynamic> registerData) async {
+    Map<String, dynamic> registerResponse = {
+      "logged_in": false,
+      "errors": [],
+    };
+
+    try {
+      Response response = await this.dio.post('register', data: registerData);
+
+      if (response.data['access_token'] != null &&
+          response.data['user'] != null) {
+        this.setToken(response.data['access_token']);
+        this.saveTokenToDevice(response.data['access_token']);
+
+        registerResponse['logged_in'] = true;
+        registerResponse['user'] = UserModel.fromJson(response.data['user']);
+      }
+    } on DioError catch(e) {
+      if (e.response.data['errors'] != null) {
+        Map<String, dynamic> errorMap = e.response.data['errors'];
+        registerResponse['errors'] = errorMap
+          .values
+          .map((error) => error[0])
+          .toList()
+          .cast<String>();
+      }
+    } catch (e) {
+      print('There was a problem during registration: $e');
+      registerResponse['errors'].add("There was a problem, please try again later..");
+    }
+
+    return registerResponse;
+  }
+
+
 
   Future<bool> logout() async {
     try {

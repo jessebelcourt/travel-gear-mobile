@@ -1,6 +1,7 @@
+
 class UserModel {
   int id;
-  String name;//last_name
+  String name; //last_name
   String email; //email
   String profilePic; //community_avatar
   String bio; //description
