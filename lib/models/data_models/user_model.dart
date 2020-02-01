@@ -87,13 +87,39 @@ class UserModel {
     return registerResponse;
   }
 
+  Future<Map<String, dynamic>> login(
+      Map<String, dynamic> loginData) async {
+    Map<String, dynamic> loginResponse =
+        await UserRepository.attemptLogin(loginData);
+
+    // Save token to local db
+    if (loginResponse['token'] != null &&
+        loginResponse['token'].isNotEmpty) {
+      this.token = loginResponse['token'];
+      await this.update();
+    }
+
+    return loginResponse;
+  }
+
   static Future<UserModel> get userFromLocal async {
     return await UserRepository.localUser();
   }
 
   // This checks the Bearer token saved locally on the device
   Future<bool> get tokenIsValid async {
-    return await UserRepository.tokenIsValid();
+    bool valid = false;
+    print(this);
+    if (this.token != null &&
+        this.token.isNotEmpty &&
+        await UserRepository.tokenIsValid(this.token)) {
+        valid = true;
+    } else {
+      this.token = null;
+      this.update();
+    }
+
+    return valid;
   }
 
   Future<UserModel> fetchData() async {

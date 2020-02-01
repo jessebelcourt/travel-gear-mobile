@@ -39,7 +39,7 @@ class ApiConnection {
     );
   }
 
-  void setToken(String token) {
+  void set token(String token) {
     this.dio.options.headers = {'Authorization': "Bearer $token"};
   }
 

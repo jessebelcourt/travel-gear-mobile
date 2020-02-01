@@ -6,7 +6,6 @@ import 'package:travel_gear_mobile/models/view_models.dart/auth_view_model.dart'
 import 'package:travel_gear_mobile/redux/app_state.dart';
 import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
 import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
-import 'package:travel_gear_mobile/util/api_connection.dart';
 
 class RegisterView extends StatefulWidget {
   RegisterView({Key key}) : super(key: key);
@@ -25,6 +24,7 @@ class _RegisterViewState extends State<RegisterView> {
   String _passwordError;
   String _passwordConfirmationError;
   List<String> _errorsFromServer = [];
+  AuthViewUIModel _viewModel;
 
   @override
   void initState() {
@@ -39,6 +39,12 @@ class _RegisterViewState extends State<RegisterView> {
     return StoreConnector<AppState, dynamic>(
       converter: (store) => AuthViewUIModel.fromStore(store),
       builder: (_, viewModel) => _buildContent(viewModel),
+      onInit: (store) {
+        this._viewModel = AuthViewUIModel.fromStore(store);
+      },
+      onDidChange: (viewModel) {
+          this._viewModel = viewModel;
+      },
     );
   }
 
@@ -122,6 +128,11 @@ class _RegisterViewState extends State<RegisterView> {
             ),
           ),
           onPressed: this._validateInputs,
+          // onPressed: () {
+          //   print(_viewModel);
+          //   // this._validateInputs(viewModel);
+          // },
+          // onPressed: this._validateInputs,
         ),
       ],
     );
@@ -289,11 +300,10 @@ class _RegisterViewState extends State<RegisterView> {
     Map<String, dynamic> response = await user.register(data);
     print('_register: $response');
 
-    if (response['logged_in'] != null &&
-        !response['logged_in'] &&
-        response['errors'] != null &&
-        response['errors'].isNotEmpty) {
-          setState(() => this._errorsFromServer = response['errors']);
+    if (response['errors'] != null && response['errors'].isNotEmpty) {
+      setState(() => this._errorsFromServer = response['errors']);
+    } else {
+      this._viewModel.fetchUserData();
     }
   }
 }

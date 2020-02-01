@@ -8,6 +8,35 @@ class UserRepository {
   static final ApiConnection api = ApiConnection();
   static DatabaseHelper databaseHelper = DatabaseHelper();
 
+  static Future<Map<String, dynamic>> attemptLogin(
+      Map<String, dynamic> loginData) async {
+    Map<String, dynamic> loginResponse = {
+      "token": null,
+      "errors": [],
+    };
+
+    try {
+      Response response =
+          await UserRepository.api.dio.post('login', data: loginData);
+
+      print('attemptLogin response: $response');
+
+      if (response.data['access_token'] != null &&
+          response.data['access_token'].isNotEmpty) {
+        loginResponse['token'] = response.data['access_token'];
+      }
+    } on DioError catch(e) {
+      print('There was a problem logging in: ${e.response.data}');
+      loginResponse['errors'] = UserRepository.api.formatServerErrors(e);
+    } 
+    catch (e) {
+      loginResponse['errors']
+          .add("There was a problem, please try again later..");
+    }
+
+    return loginResponse;
+  }
+
   static Future<Map<String, dynamic>> register(
       Map<String, dynamic> registerData) async {
     Map<String, dynamic> registerResponse = {
@@ -23,6 +52,7 @@ class UserRepository {
 
       if (response.data['access_token'] != null) {
         registerResponse['token'] = response.data['access_token'];
+        UserRepository.api.token = registerResponse['token'];
       }
     } on DioError catch (e) {
       if (e.response.data['errors'] != null) {
@@ -49,18 +79,21 @@ class UserRepository {
       user = UserModel.fromLocalJson(rawUserData);
     } else {
       UserModel user = UserModel();
-      user.localId = await db.insert('users', user.toMap());
+      user.localId = await db.insert('user', user.toMap());
     }
 
     return user;
   }
 
   // This checks the Bearer token saved locally on the device
-  static Future<bool> tokenIsValid() async {
+  static Future<bool> tokenIsValid(String token) async {
     bool valid = false;
     try {
-      Response response = await api.dio.get('/auth/validate');
-      valid = response.data['success'] != null && response.data['success'];
+      api.token = token;
+      Response response = await api.dio.get('/authenticated');
+      print(response);
+      valid = response.data['is_authenticated'] != null &&
+          response.data['is_authenticated'];
     } on DioError catch (e) {
       print(
           'There was a problem checking the tokens validity (DioError): ${e.response.data}');
@@ -77,7 +110,6 @@ class UserRepository {
     try {
       Response response = await api.dio.get('/user/current');
       user = UserModel.fromJson(response.data['data']);
-
     } on DioError catch (e) {
       print('There was a problem fetching the users data: ${e.response.data}');
     } catch (e) {
@@ -94,7 +126,7 @@ class UserRepository {
       int numUpdated = await db.update(
         'user',
         preUpdate,
-        where: 'id = ?',
+        where: 'local_id = ?',
         whereArgs: [user.localId],
       );
 
@@ -102,37 +134,6 @@ class UserRepository {
     }
     return false;
   }
-
-  // Future<Map<String, dynamic>> attemptLogin(
-  //     String email, String password, int appId) async {
-  //   Map<String, dynamic> loginResponse = {
-  //     "loggedIn": false,
-  //   };
-
-  //   try {
-  //     Response response = await this.dio.post('appuser/login', data: {
-  //       "email": email,
-  //       "password": password,
-  //       "app_id": appId,
-  //     });
-
-  //     print('attemptLogin response: $response');
-
-  //     if (response.data['access_token'] != null &&
-  //         response.data['user'] != null) {
-  //       this.setToken(response.data['access_token']);
-  //       this.saveTokenToDevice(response.data['access_token']);
-  //       loginResponse['loggedIn'] = true;
-  //       loginResponse['user'] = UserModel.fromJson(response.data['user']);
-  //     } else if (response.data['message'] != null) {
-  //       loginResponse['message'] = response.data['message'];
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-
-  //   return loginResponse;
-  // }
 
   // Future<bool> logout() async {
   //   try {
@@ -174,7 +175,5 @@ class UserRepository {
 
   //   return data;
   // }
-
-
 
 }

@@ -5,4 +5,6 @@ class UpdateUserInfo {
   UpdateUserInfo(this.user);
 }
 
+class FetchUserDataAction {}
+
 class BootstrapApplication {}

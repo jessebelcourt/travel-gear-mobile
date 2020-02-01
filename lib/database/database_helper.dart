@@ -7,8 +7,8 @@ import './migrations.dart';
 class DatabaseHelper {
   static final DatabaseHelper _databaseHelper = DatabaseHelper.internal();
 
-  static final String _databaseName = 'swandoola_practitioner.db';
-  static final int _databaseVersion = 1;
+  static final String _databaseName = 'travel_gear.db';
+  static final int _databaseVersion = 3;
 
   DatabaseHelper.internal() {
 
