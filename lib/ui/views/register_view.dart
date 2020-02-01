@@ -285,8 +285,8 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   void _register(Map<String, dynamic> data) async {
-    ApiConnection api = ApiConnection();
-    Map<String, dynamic> response = await api.register(data);
+    UserModel user = await UserModel.userFromLocal;
+    Map<String, dynamic> response = await user.register(data);
     print('_register: $response');
 
     if (response['logged_in'] != null &&

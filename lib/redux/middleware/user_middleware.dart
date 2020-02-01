@@ -9,18 +9,16 @@ class UserMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     if (action is BootstrapApplication) {
-      print('bootsrtapping application...');
-      ApiConnection api = ApiConnection();
+      UserModel user = await UserModel.userFromLocal;
 
-      //Check to see if token is present...
-      bool tokenIsSet = await api.tokenIsSet();
-      //TODO: Need to get backend auth wired up in order to continue
-      Map<String, dynamic> tokenIsValid = await api.isTokenValid();
-
-      if (tokenIsSet && tokenIsValid['valid']) {
-        UserModel user = tokenIsValid['user'];
-        store.dispatch(UpdateUserInfo(user));
+      /// User authenticated bootstrap app
+      if (await user.tokenIsValid) {
+        await user.fetchData();
       }
+      // if (tokenIsSet && tokenIsValid['valid']) {
+      //   UserModel user = tokenIsValid['user'];
+      //   store.dispatch(UpdateUserInfo(user));
+      // }
 
       store.dispatch(NavigateToGearView());
     }
