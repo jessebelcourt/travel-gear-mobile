@@ -14,12 +14,31 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  TextEditingController _emailController;
+  TextEditingController _passwordController;
+  String _emailError;
+  String _errorMessage = '';
+  List<String> _errorsFromServer = [];
+  AuthViewUIModel _viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, dynamic>(
       converter: (store) => AuthViewUIModel.fromStore(store),
       builder: (_, viewModel) => _buildContent(viewModel),
+      onInit: (store) {
+        this._viewModel = AuthViewUIModel.fromStore(store);
+      },
+      onDidChange: (viewModel) {
+          this._viewModel = viewModel;
+      },
     );
   }
 

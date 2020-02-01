@@ -24,6 +24,7 @@ class UserRepository {
       if (response.data['access_token'] != null &&
           response.data['access_token'].isNotEmpty) {
         loginResponse['token'] = response.data['access_token'];
+        UserRepository.api.token = loginResponse['token'];
       }
     } on DioError catch(e) {
       print('There was a problem logging in: ${e.response.data}');

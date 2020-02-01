@@ -109,7 +109,6 @@ class UserModel {
   // This checks the Bearer token saved locally on the device
   Future<bool> get tokenIsValid async {
     bool valid = false;
-    print(this);
     if (this.token != null &&
         this.token.isNotEmpty &&
         await UserRepository.tokenIsValid(this.token)) {
