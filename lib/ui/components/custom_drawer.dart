@@ -34,6 +34,7 @@ class _CustomAppDrawerState extends State<CustomAppDrawer> {
 
   Column _buildDrawerContent(DrawerViewUIModel viewModel) {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         ListView(
           shrinkWrap: true,
@@ -55,20 +56,30 @@ class _CustomAppDrawerState extends State<CustomAppDrawer> {
             _buildProfileNavigationButton(viewModel),
           ],
         ),
-        Container(
-          padding: EdgeInsets.only(
-            right: 15,
-          ),
-          child: Row(
-            children: <Widget>[
-              Container(
-                child: Icon(Icons.settings),
-              ),
-              Text('Settings'),
-            ],
-          ),
-        ),
+        _buildSettingsNavigationButton(viewModel),
       ],
+    );
+  }
+
+  Container _buildSettingsNavigationButton(DrawerViewUIModel viewModel) {
+    return Container(
+      padding: EdgeInsets.only(
+        left: 15,
+      ),
+      child: ListTile(
+        onTap: viewModel.navigateToSettingsView,
+        title: Row(
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.only(
+                right: 5,
+              ),
+              child: Icon(Icons.settings),
+            ),
+            Text('Settings'),
+          ],
+        ),
+      ),
     );
   }
 

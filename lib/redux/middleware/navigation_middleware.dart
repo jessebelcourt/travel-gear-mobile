@@ -30,6 +30,10 @@ class NavigationMiddleware extends MiddlewareClass<AppState> {
       Keys.navKey.currentState.pushNamed('/login');
     }
 
+    if (action is PushToSettingsViewAction) {
+      Keys.navKey.currentState.pushNamed('/settings');
+    }
+
     next(action);
   }
 }

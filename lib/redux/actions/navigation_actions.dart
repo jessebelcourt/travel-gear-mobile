@@ -9,3 +9,6 @@ class NavigateToUserProfileViewFromDrawer {}
 
 /// Auth Navigation Actions
 class PushToRegisterViewAction {}
+
+/// Settings Naviation Actions
+class PushToSettingsViewAction {}
