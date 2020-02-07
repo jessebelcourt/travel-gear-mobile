@@ -302,7 +302,8 @@ class _RegisterViewState extends State<RegisterView> {
 
     if (response['errors'] != null && response['errors'].isNotEmpty) {
       setState(() => this._errorsFromServer = response['errors']);
-    } else {
+    } else if (response['token'] != null && response['token'] != null ) {
+      
       this._viewModel.fetchUserData();
     }
   }

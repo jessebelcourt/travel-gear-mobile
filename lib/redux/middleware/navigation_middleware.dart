@@ -15,26 +15,19 @@ class NavigationMiddleware extends MiddlewareClass<AppState> {
     if (action is NavigateToUserProfileViewFromDrawer) {
       // User must be logged in to view profile
       if (store.state.userState.user == null) {
-        Keys.navKey.currentState
-            .pushNamedAndRemoveUntil('/login', ModalRoute.withName('/gear'));
+        Keys.navKey.currentState.pushNamed('/login');
       } else {
         Keys.navKey.currentState.pushNamedAndRemoveUntil(
             '/userprofile', ModalRoute.withName('/gear'));
       }
     }
-    
-    if (action is NavigateToRegisterView) {
-      // User must be logged in to view profile
-        Keys.navKey.currentState
-            .pushNamedAndRemoveUntil('/register', ModalRoute.withName('/gear'));
-      
+
+    if (action is PushToRegisterViewAction) {
+      Keys.navKey.currentState.pushNamed('/register');
     }
-    
+
     if (action is NavigateToLoginAction) {
-      // User must be logged in to view profile
-        Keys.navKey.currentState
-            .pushNamedAndRemoveUntil('/register', ModalRoute.withName('/gear'));
-      
+      Keys.navKey.currentState.pushNamed('/login');
     }
 
     next(action);

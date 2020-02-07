@@ -6,5 +6,9 @@ final userReducer = combineReducers<UserState>([
   TypedReducer<UserState, UpdateUserInfo>(_updateUserInfo),
 ]);
 
-UserState _updateUserInfo(UserState state, UpdateUserInfo action) =>
-    state.copyWith(user: action.user);
+UserState _updateUserInfo(UserState state, UpdateUserInfo action) {
+  print(action.user);
+  return state.copyWith(user: action.user);
+}
+// UserState _updateUserInfo(UserState state, UpdateUserInfo action) =>
+//     state.copyWith(user: action.user);

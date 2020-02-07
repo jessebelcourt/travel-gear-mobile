@@ -56,7 +56,6 @@ class UserModel {
     this.email = user.email;
     this.profilePic = user.profilePic;
     this.bio = user.bio;
-    this.token = user.token;
   }
 
   String toString() => '''
@@ -96,8 +95,11 @@ class UserModel {
     if (loginResponse['token'] != null &&
         loginResponse['token'].isNotEmpty) {
       this.token = loginResponse['token'];
-      await this.update();
+    } else {
+      this.token = null;
     }
+    await this.update();
+    print(this);
 
     return loginResponse;
   }

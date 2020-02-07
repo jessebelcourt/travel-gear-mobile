@@ -12,9 +12,8 @@ class CustomAppDrawer extends StatefulWidget {
 }
 
 class _CustomAppDrawerState extends State<CustomAppDrawer> {
-
   @override
-  void initState() { 
+  void initState() {
     super.initState();
   }
 
@@ -33,24 +32,42 @@ class _CustomAppDrawerState extends State<CustomAppDrawer> {
     );
   }
 
-  ListView _buildDrawerContent(DrawerViewUIModel viewModel) {
-    return ListView(
+  Column _buildDrawerContent(DrawerViewUIModel viewModel) {
+    return Column(
       children: <Widget>[
-        Container(
-          padding: EdgeInsets.symmetric(
-            vertical: 30,
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            'Travel Gear',
-            style: TextStyle(
-              color: Theme.of(context).primaryColor,
-              fontSize: 26,
+        ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Container(
+              padding: EdgeInsets.symmetric(
+                vertical: 30,
+              ),
+              alignment: Alignment.center,
+              child: Text(
+                'Travel Gear',
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontSize: 26,
+                ),
+              ),
             ),
+            _buildGearNavigationButton(viewModel),
+            _buildProfileNavigationButton(viewModel),
+          ],
+        ),
+        Container(
+          padding: EdgeInsets.only(
+            right: 15,
+          ),
+          child: Row(
+            children: <Widget>[
+              Container(
+                child: Icon(Icons.settings),
+              ),
+              Text('Settings'),
+            ],
           ),
         ),
-        _buildGearNavigationButton(viewModel),
-        _buildProfileNavigationButton(viewModel),
       ],
     );
   }

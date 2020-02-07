@@ -90,11 +90,13 @@ class UserRepository {
   static Future<bool> tokenIsValid(String token) async {
     bool valid = false;
     try {
-      api.token = token;
-      Response response = await api.dio.get('/authenticated');
+      UserRepository.api.token = token;
+      print('checking token: $token');
+      Response response = await UserRepository.api.dio.get('authenticated');
       print(response);
       valid = response.data['is_authenticated'] != null &&
           response.data['is_authenticated'];
+      
     } on DioError catch (e) {
       print(
           'There was a problem checking the tokens validity (DioError): ${e.response.data}');
@@ -109,8 +111,13 @@ class UserRepository {
     UserModel user;
 
     try {
-      Response response = await api.dio.get('/user/current');
-      user = UserModel.fromJson(response.data['data']);
+      Response response = await UserRepository.api.dio.get('user/current');
+      print('response: $response');
+      if (response.data['data'] != null) {
+        user = UserModel.fromJson(response.data['data']);
+      }
+
+      print('user: $user');
     } on DioError catch (e) {
       print('There was a problem fetching the users data: ${e.response.data}');
     } catch (e) {
@@ -134,6 +141,21 @@ class UserRepository {
       return numUpdated > 0;
     }
     return false;
+  }
+
+  static Future<UserModel> fetchCurrentUserData() async {
+    UserModel user;
+    
+    try {
+      
+      
+    } on DioError catch(e) {
+      print('There was a problem fetching the current user: ${e.response.data}');
+    } catch(e) {
+      print('There was a problem fetching the current user: $e');
+    }
+
+    return user;
   }
 
   // Future<bool> logout() async {

@@ -9,21 +9,16 @@ class UserMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     if (action is BootstrapApplication) {
       UserModel user = await UserModel.userFromLocal;
+      print('user from Bootstrap: $user');
     
-      /// User authenticated bootstrap app
+      /// User authenticated, bootstrap app
       if (await user.tokenIsValid) {
-        store.dispatch(FetchUserDataAction());
+        print('token is valid');
+        await user.fetchData();
+        store.dispatch(UpdateUserInfo(user));
       }
 
       store.dispatch(NavigateToGearView());
-    }
-
-    if (action is FetchUserDataAction) {
-      print('fetch user data.....');
-      // if (tokenIsSet && tokenIsValid['valid']) {
-      //   UserModel user = tokenIsValid['user'];
-      //   store.dispatch(UpdateUserInfo(user));
-      // }
     }
 
     next(action);
