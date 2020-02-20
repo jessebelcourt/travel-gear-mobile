@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:travel_gear_mobile/models/data_models/user_model.dart';
 import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
 import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
 
@@ -35,14 +36,26 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                   color: Theme.of(context).primaryColor,
                   child: Text('Logout'),
-                  onPressed: () {
-                    print('logout of the application');
+                  onPressed: () async {
+                    UserModel user = await UserModel.userFromLocal;
+                    bool loggedOut = await user.logout();
+                    if (loggedOut) {
+                      _scaffoldKey.currentState.showSnackBar(_buildLoggedOutMessage());
+                    }
                   },
                 ),
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buildLoggedOutMessage() {
+    return SnackBar(
+      content: Text(
+        'Logged out!'
       ),
     );
   }
