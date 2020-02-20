@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:travel_gear_mobile/ui/components/custom_app_bar.dart';
+import 'package:travel_gear_mobile/ui/components/custom_drawer.dart';
 
 class SettingsView extends StatefulWidget {
   SettingsView({Key key}) : super(key: key);
@@ -8,33 +10,40 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(
-            bottom: 50,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              FlatButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+      key: _scaffoldKey,
+      appBar: CustomAppBar(
+        scaffoldKey: _scaffoldKey,
+      ),
+      drawer: CustomAppDrawer(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(
+              bottom: 50,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlatButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  color: Theme.of(context).primaryColor,
+                  child: Text('Logout'),
+                  onPressed: () {
+                    print('logout of the application');
+                  },
                 ),
-                color: Theme.of(context).primaryColor,
-                child: Text('Logout'),
-                onPressed: () {
-                  print('logout of the application');
-                },
-              ),
-            ],
-          ),
-        )
-      ],
-    ));
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

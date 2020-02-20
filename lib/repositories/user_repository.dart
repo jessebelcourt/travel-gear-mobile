@@ -158,45 +158,22 @@ class UserRepository {
     return user;
   }
 
-  // Future<bool> logout() async {
-  //   try {
-  //     Response response = await this.dio.post('appuser/logout');
-  //     print('logout: $response');
-  //   } catch (e) {
-  //     print('There was a problem logging out: $e');
-  //   }
+  static Future<bool> logout() async {
+    bool loggedOut = false;
+    
+    try {
+      Response response = await UserRepository.api.dio.post('logout');
+      print(response);
 
-  //   return true;
-  // }
+      if (response.data['logged_out'] != null) {
+        loggedOut = response.data['logged_out'];
+      }
+    } on DioError catch(e){
+      print('There was a problem logging out: ${e.response.data}');
+    } catch(e){
+      print('There was a problem loggine out: $e');
+    }
 
-  // void deleteToken() async {
-  //   print('deleting token');
-  //   final storage = new FlutterSecureStorage();
-  //   await storage.delete(key: 'travel_gear_access_token');
-  //   this.dio.options.headers = {'Authorization': "Bearer ''"};
-  //   this._token = '';
-  // }
-
-  // /// Checks whether the bearer token is valid through the Laravel API.
-  // ///
-  // /// Returns [true] if token is set in Header, and if it is still valid
-  // /// through Laravel backend. returns [false] otherwise.
-  // Future<Map<String, dynamic>> isTokenValid() async {
-  //   Map<String, dynamic> data = {'valid': false};
-
-  //   try {
-  //     Response response = await this.dio.get('authenticated');
-
-  //     print('isTokenValid: $response');
-  //     data['valid'] = (response.data['valid'] == true);
-  //     data['user'] =
-  //         data['valid'] ? UserModel.fromJson(response.data['user']) : null;
-
-  //   } catch (e) {
-  //     print('there was an issue validating the token: $e');
-  //   }
-
-  //   return data;
-  // }
-
+    return loggedOut;
+  }
 }
