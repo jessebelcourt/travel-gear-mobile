@@ -163,7 +163,7 @@ class UserRepository {
     
     try {
       Response response = await UserRepository.api.dio.post('logout');
-      print(response);
+      print('loggout: $response');
 
       if (response.data['logged_out'] != null) {
         loggedOut = response.data['logged_out'];

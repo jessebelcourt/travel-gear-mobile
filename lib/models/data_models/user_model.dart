@@ -123,6 +123,17 @@ class UserModel {
     return valid;
   }
 
+  Future<bool> logout() async {
+    bool loggedOut = await UserRepository.logout();
+    if (loggedOut) {
+      this.token = null;
+      UserRepository.api.token = null;
+      this.update();
+    }
+
+    return loggedOut;
+  }
+
   Future<UserModel> fetchData() async {
     UserModel user = await UserRepository.fetchLoggedInUsersData();
     if (user != null) {
